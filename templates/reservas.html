@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <span class="tag">Agenda das Salas</span>
+    <h1>Reservas Agendadas</h1>
+    <p>Controle dos horários das salas de ballet</p>
+</header>
+
+<main class="container">
+
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            <section class="card destaque">
+                {% for mensagem in mensagens %}
+                    <div class="alerta">{{ mensagem }}</div>
+                {% endfor %}
+            </section>
+        {% endif %}
+    {% endwith %}
+
+    <section class="card table-card">
+        <h2>Lista de Reservas</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Professor</th>
+                        <th>Sala</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Observação</th>
+                        <th>E-mail</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.professor }}</td>
+                        <td>{{ reserva.sala }}</td>
+                        <td>{{ reserva.data }}</td>
+                        <td>{{ reserva.horario }}</td>
+                        <td>{{ reserva.observacao }}</td>
+                        <td>
+                            {% if reserva.professor_email %}
+                                {{ reserva.professor_email }}
+                            {% else %}
+                                <span class="empty">Sem e-mail</span>
+                            {% endif %}
+                        </td>
+                        <td class="acoes-tabela">
+                            <a href="/editar_reserva/{{ reserva.id }}">Editar</a>
+                            <a class="danger" href="/excluir_reserva/{{ reserva.id }}" onclick="return confirm('Tem certeza que deseja excluir esta reserva?')">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="empty">Nenhuma reserva cadastrada.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="links">
+            <a href="/">Nova Reserva</a>
+            <a href="/login-admin">Painel Admin</a>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>

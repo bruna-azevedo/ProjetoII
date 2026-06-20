@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <span class="tag">Área protegida</span>
+    <h1>Painel Administrativo</h1>
+    <p>Cadastro de professores e salas de ballet</p>
+</header>
+
+<main class="container grid">
+
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            <section class="card destaque">
+                {% for mensagem in mensagens %}
+                    <div class="alerta">{{ mensagem }}</div>
+                {% endfor %}
+            </section>
+        {% endif %}
+    {% endwith %}
+
+    <section class="card">
+        <h2>Cadastrar Professor</h2>
+
+        <form action="/cadastrar_professor" method="POST">
+            <label>Nome do professor</label>
+            <input type="text" name="nome" placeholder="Ex: Profª Ana Clara" required>
+
+            <label>Telefone</label>
+            <input type="text" name="telefone" placeholder="(51) 99999-9999">
+
+            <label>E-mail</label>
+            <input type="email" name="email" placeholder="professora@email.com">
+
+            <label>Especialidade</label>
+            <input type="text" name="especialidade" placeholder="Ex: Ballet Clássico, Jazz, Baby Class">
+
+            <button type="submit">Cadastrar Professor</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Cadastrar Sala</h2>
+
+        <form action="/cadastrar_sala" method="POST">
+            <label>Nome da sala</label>
+            <input type="text" name="nome" placeholder="Ex: Sala Rosa" required>
+
+            <label>Capacidade</label>
+            <input type="number" name="capacidade" placeholder="Ex: 12" required>
+
+            <button type="submit">Cadastrar Sala</button>
+        </form>
+    </section>
+
+</main>
+
+<div class="center links-center">
+    <a href="/">Nova Reserva</a>
+    <a href="/reservas">Ver Reservas</a>
+    <a href="/sair-admin" class="danger">Sair do Admin</a>
+</div>
+
+</body>
+</html>

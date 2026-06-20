@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Reserva</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <span class="tag">Área administrativa</span>
+    <h1>Editar Reserva</h1>
+    <p>Altere os dados da reserva e avise o professor por e-mail</p>
+</header>
+
+<main class="container">
+
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            <section class="card destaque">
+                {% for mensagem in mensagens %}
+                    <div class="alerta">{{ mensagem }}</div>
+                {% endfor %}
+            </section>
+        {% endif %}
+    {% endwith %}
+
+    <section class="card destaque reserva-card">
+        <div class="titulo-form">
+            <span>✏️</span>
+            <div>
+                <h2>Alterar Reserva</h2>
+                <p>Ao salvar, o professor receberá um e-mail informando a alteração.</p>
+            </div>
+        </div>
+
+        <form action="/editar_reserva/{{ reserva.id }}" method="POST">
+
+            <label>Professor</label>
+            <select name="professor_id" required>
+                {% for professor in professores %}
+                    <option value="{{ professor.id }}" {% if professor.id == reserva.professor_id %}selected{% endif %}>
+                        {{ professor.nome }}
+                        {% if professor.email %}
+                            - {{ professor.email }}
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Sala</label>
+            <select name="sala_id" required>
+                {% for sala in salas %}
+                    <option value="{{ sala.id }}" {% if sala.id == reserva.sala_id %}selected{% endif %}>
+                        {{ sala.nome }} - capacidade {{ sala.capacidade }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Data</label>
+            <input type="date" name="data" value="{{ reserva.data }}" required>
+
+            <label>Horário</label>
+            <input type="time" name="horario" value="{{ reserva.horario }}" required>
+
+            <label>Observação</label>
+            <textarea name="observacao">{{ reserva.observacao }}</textarea>
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+
+        <div class="links">
+            <a href="/reservas">Voltar para Reservas</a>
+            <a href="/">Nova Reserva</a>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>

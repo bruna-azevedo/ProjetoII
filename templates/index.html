@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Reserva de Sala de Ballet</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <span class="tag">Ballet Studio</span>
+    <h1>Dashboard da Academia</h1>
+    <p>Organize reservas, acompanhe novidades e valorize os destaques da instituição</p>
+</header>
+
+<main class="container dashboard-container">
+
+    {% with mensagens = get_flashed_messages() %}
+        {% if mensagens %}
+            <section class="card destaque">
+                {% for mensagem in mensagens %}
+                    <div class="alerta">{{ mensagem }}</div>
+                {% endfor %}
+            </section>
+        {% endif %}
+    {% endwith %}
+
+    <section class="hero-dashboard">
+        <div class="hero-texto">
+            <span class="tag pequena">Sistema de Reservas</span>
+            <h2>Bem-vindo ao painel da academia</h2>
+            <p>
+                Aqui os professores podem reservar salas, acompanhar avisos importantes
+                e visualizar informações gerais da rotina da instituição de ballet.
+            </p>
+
+            <div class="hero-botoes">
+                <a href="#nova-reserva">Fazer Reserva</a>
+                <a href="/reservas">Ver Reservas</a>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <span>🩰</span>
+            <h3>Agenda organizada</h3>
+            <p>Evite conflitos de horários e mantenha as salas sempre bem distribuídas.</p>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat-card">
+            <span>👩‍🏫</span>
+            <h3>{{ total_professores }}</h3>
+            <p>Professores cadastrados</p>
+        </div>
+
+        <div class="stat-card">
+            <span>🏫</span>
+            <h3>{{ total_salas }}</h3>
+            <p>Salas disponíveis</p>
+        </div>
+
+        <div class="stat-card">
+            <span>📅</span>
+            <h3>{{ total_reservas }}</h3>
+            <p>Reservas registradas</p>
+        </div>
+
+        <div class="stat-card">
+            <span>⭐</span>
+            <h3>1</h3>
+            <p>Destaque do mês</p>
+        </div>
+    </section>
+
+    <section class="grid-dashboard">
+
+        <div class="card aluna-mes">
+            <div class="foto-aluna">
+                <img src="/static/aluna_mes.jpeg" alt="Foto da aluna do mês">
+            </div>
+
+            <div class="info-aluna">
+                <span class="selo">⭐ Aluna do Mês</span>
+                <h2>Bruna Azevedo</h2>
+                <p>
+                    Destaque pelo comprometimento, dedicação aos ensaios e evolução
+                    durante as aulas de ballet.
+                </p>
+
+                <div class="mini-info">
+                    <span>🩰 Técnica</span>
+                    <span>💗 Dedicação</span>
+                    <span>🌟 Evolução</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card quote-card">
+            <h2>Frase Inspiradora</h2>
+            <p>“A dança é a linguagem escondida da alma.”</p>
+        </div>
+
+    </section>
+
+    <section class="grid-dashboard dois-blocos">
+
+        <div class="card">
+            <h2>📰 Mural de Notícias</h2>
+
+            <div class="noticia">
+                <h3>Festival de Inverno</h3>
+                <p>As inscrições para a apresentação especial estão abertas até o fim do mês.</p>
+            </div>
+
+            <div class="noticia">
+                <h3>Nova organização das salas</h3>
+                <p>Confira os horários antes de reservar para evitar conflitos na agenda.</p>
+            </div>
+
+            <div class="noticia">
+                <h3>Ensaios gerais</h3>
+                <p>Os ensaios para turmas avançadas começam na próxima semana.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📌 Próximos Eventos</h2>
+
+            <ul class="eventos">
+                <li>
+                    <strong>20/06</strong>
+                    <span>Aula aberta para novas alunas</span>
+                </li>
+
+                <li>
+                    <strong>05/07</strong>
+                    <span>Festival de Inverno</span>
+                </li>
+
+                <li>
+                    <strong>15/08</strong>
+                    <span>Mostra interna de dança</span>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+
+    <section class="card destaque reserva-card" id="nova-reserva">
+        <div class="titulo-form">
+            <span>📝</span>
+            <div>
+                <h2>Nova Reserva</h2>
+                <p>Preencha os dados abaixo para reservar uma sala.</p>
+            </div>
+        </div>
+
+        <form action="/reservar" method="POST">
+
+            <label>Professor</label>
+            <select name="professor_id" required>
+                <option value="" selected disabled>Selecione um professor</option>
+                {% for professor in professores %}
+                    <option value="{{ professor.id }}">{{ professor.nome }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Sala</label>
+            <select name="sala_id" required>
+                <option value="" selected disabled>Selecione uma sala</option>
+                {% for sala in salas %}
+                    <option value="{{ sala.id }}">
+                        {{ sala.nome }} - capacidade {{ sala.capacidade }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Data</label>
+            <input type="date" name="data" required>
+
+            <label>Horário</label>
+            <input type="time" name="horario" required>
+
+            <label>Observação</label>
+            <textarea name="observacao" placeholder="Ex: Aula individual, ensaio, reposição..."></textarea>
+
+            <button type="submit">Reservar Sala</button>
+        </form>
+
+        <div class="links">
+            <a href="/reservas">Ver Reservas</a>
+            <a href="/login-admin">Painel Admin</a>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <span class="tag">Acesso restrito</span>
+    <h1>Login do Administrador</h1>
+    <p>Digite a senha para acessar o painel</p>
+</header>
+
+<main class="container login-container">
+    <section class="card login-card">
+        <h2>Entrar no Painel</h2>
+
+        {% with mensagens = get_flashed_messages() %}
+            {% if mensagens %}
+                {% for mensagem in mensagens %}
+                    <p class="alerta">{{ mensagem }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="/login-admin" method="POST">
+            <label>Senha do administrador</label>
+            <input type="password" name="senha" placeholder="Digite a senha" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="links">
+            <a href="/">Voltar</a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
