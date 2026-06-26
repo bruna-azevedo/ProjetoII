@@ -648,3 +648,50 @@ tr:hover {
 .grid > .destaque {
     grid-column: 1 / -1;
 }
+
+
+.preview-horario {
+    margin: 10px 0 18px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #fff4f8;
+    border: 1px solid #f0c8d8;
+    color: var(--vinho-suave);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+
+.admin-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 18px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #fff4f8;
+    color: #8a4b68;
+    font-weight: 600;
+}
+
+.admin-status a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #f5d3e2;
+    color: #8a4b68;
+    font-weight: 700;
+}
+
+.admin-status a.danger {
+    background: #ffd9d9;
+    color: #9b2d2d;
+}
+
+@media (max-width: 700px) {
+    .admin-status {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
