@@ -228,6 +228,8 @@ Durante o planejamento do projeto foi elaborado um Project Model Canvas contendo
 * equipe;
 * custos.
 
+<img width="1536" height="1024" alt="PMC" src="https://github.com/user-attachments/assets/5da829f5-4279-40ca-bbe4-9db5d4cc0296" />
+
 
   🎯 Justificativa
 
