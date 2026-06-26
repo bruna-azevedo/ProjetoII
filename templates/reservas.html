@@ -29,6 +29,18 @@
     <section class="card table-card">
         <h2>Lista de Reservas</h2>
 
+        {% if admin_autenticado %}
+            <div class="admin-status">
+                <span>Admin logado: edição e exclusão liberadas.</span>
+                <a href="/sair-admin" class="danger">Sair do Admin</a>
+            </div>
+        {% else %}
+            <div class="admin-status">
+                <span>Modo professor: edição e exclusão bloqueadas.</span>
+                <a href="/login-admin?next=/reservas">Entrar como Admin</a>
+            </div>
+        {% endif %}
+
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -36,10 +48,14 @@
                         <th>Professor</th>
                         <th>Sala</th>
                         <th>Data</th>
-                        <th>Horário</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Duração</th>
                         <th>Observação</th>
                         <th>E-mail</th>
-                        <th>Ações</th>
+                        {% if admin_autenticado %}
+                            <th>Ações</th>
+                        {% endif %}
                     </tr>
                 </thead>
 
@@ -50,6 +66,8 @@
                         <td>{{ reserva.sala }}</td>
                         <td>{{ reserva.data }}</td>
                         <td>{{ reserva.horario }}</td>
+                        <td>{{ reserva.horario_fim }}</td>
+                        <td>{{ reserva.duracao_minutos }} min</td>
                         <td>{{ reserva.observacao }}</td>
                         <td>
                             {% if reserva.professor_email %}
@@ -58,16 +76,18 @@
                                 <span class="empty">Sem e-mail</span>
                             {% endif %}
                         </td>
-                        <td class="acoes-tabela">
-                            <a href="/editar_reserva/{{ reserva.id }}">Editar</a>
-                            <a class="danger" href="/excluir_reserva/{{ reserva.id }}" onclick="return confirm('Tem certeza que deseja excluir esta reserva?')">
-                                Excluir
-                            </a>
-                        </td>
+                        {% if admin_autenticado %}
+                            <td class="acoes-tabela">
+                                <a href="/editar_reserva/{{ reserva.id }}">Editar</a>
+                                <a class="danger" href="/excluir_reserva/{{ reserva.id }}" onclick="return confirm('Tem certeza que deseja excluir esta reserva?')">
+                                    Excluir
+                                </a>
+                            </td>
+                        {% endif %}
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="7" class="empty">Nenhuma reserva cadastrada.</td>
+                        <td colspan="{% if admin_autenticado %}9{% else %}8{% endif %}" class="empty">Nenhuma reserva cadastrada.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
