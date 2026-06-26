@@ -61,8 +61,20 @@
             <label>Data</label>
             <input type="date" name="data" value="{{ reserva.data }}" required>
 
-            <label>Horário</label>
+            <label>Horário de início</label>
             <input type="time" name="horario" value="{{ reserva.horario }}" required>
+
+            <label>Duração da reserva</label>
+            <select name="duracao_minutos" required>
+                <option value="30" {% if reserva.duracao_minutos == 30 %}selected{% endif %}>30 minutos</option>
+                <option value="40" {% if reserva.duracao_minutos == 40 %}selected{% endif %}>40 minutos</option>
+                <option value="50" {% if reserva.duracao_minutos == 50 %}selected{% endif %}>50 minutos</option>
+                <option value="60" {% if reserva.duracao_minutos == 60 or not reserva.duracao_minutos %}selected{% endif %}>1 hora</option>
+                <option value="90" {% if reserva.duracao_minutos == 90 %}selected{% endif %}>1 hora e 30 minutos</option>
+                <option value="120" {% if reserva.duracao_minutos == 120 %}selected{% endif %}>2 horas</option>
+                <option value="150" {% if reserva.duracao_minutos == 150 %}selected{% endif %}>2 horas e 30 minutos</option>
+                <option value="180" {% if reserva.duracao_minutos == 180 %}selected{% endif %}>3 horas</option>
+            </select>
 
             <label>Observação</label>
             <textarea name="observacao">{{ reserva.observacao }}</textarea>
@@ -78,5 +90,6 @@
 
 </main>
 
+    <script src="/static/script.js"></script>
 </body>
 </html>
